@@ -1,0 +1,1 @@
+void tinhTong(int n, int mang[]) {    int s = 0, i;    for (i = 0; i < n; i++) {        s += mang[i];    }    printf("\nTong cac so trong mang la: %d", s);}

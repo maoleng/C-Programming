@@ -1,0 +1,1 @@
+void timSoNhoNhat(int n, int mang[]) {    int soNhoNhat = 0, i;    for (i = 0; i < n; i++) {        if (soNhoNhat > mang[i]) {            soNhoNhat = mang[i];        }    }    printf("\nSo lon nhat la: %d", soNhoNhat);} 
