@@ -8,7 +8,7 @@ void doDaiChuoi(char chuoi[]){
     }
     printf("Do dai chuoi la: %d", doDai);
 }
-
+ 
 int main(){
     char chuoi[50];
     printf("Nhap vao chuoi: ");
