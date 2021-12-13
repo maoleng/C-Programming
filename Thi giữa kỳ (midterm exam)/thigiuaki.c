@@ -18,6 +18,6 @@ int main(){
         }
         
         S += 1.0/phantu;
-    }
+    } 
     printf("S = %.6f", S);
 }
