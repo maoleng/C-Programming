@@ -132,6 +132,13 @@ void cau_4_asc(sv values[], char id_sort[50], int sum_dssv) {
 				values[i] = values[j];
 				values[j]=temp;
 			}
+            if(strcmp(values[i].first_name, values[j].first_name)==0){
+				if ( strcmp(values[i].date_of_birth) )
+                sv temp;
+				temp = values[i];
+				values[i] = values[j];
+				values[j]=temp;
+			
 		}
 	}
 
