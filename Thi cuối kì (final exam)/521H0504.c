@@ -88,6 +88,8 @@ void cau_1(sv values[], char id_class[50], int sum_dssv) {
         }
     }
     fclose(file_path_write);
+    // FILE *xoa_dau_xuong_dong = fopen("result.csv", "a");
+    // fprintf(xoa_dau_xuong_dong, "\0\0");
 }
 
 void cau_2(sv values[], char id_gender[50], int sum_dssv) {
@@ -132,13 +134,6 @@ void cau_4_asc(sv values[], char id_sort[50], int sum_dssv) {
 				values[i] = values[j];
 				values[j]=temp;
 			}
-            if(strcmp(values[i].first_name, values[j].first_name)==0){
-				if ( strcmp(values[i].date_of_birth) )
-                sv temp;
-				temp = values[i];
-				values[i] = values[j];
-				values[j]=temp;
-			
 		}
 	}
 
@@ -201,10 +196,10 @@ int main () {
     char line_in_data[2000];
     int row_count = 0;
     int field_count = 0;
-    sv values[999];
+    sv values[2000];
 
     int i = 0;
-    while ( fgets( line_in_data, 1024, file_path ) ) {
+    while ( fgets( line_in_data, 2000, file_path ) ) {
         field_count = 0;
         row_count++;
         if ( row_count == 1 ) {
@@ -242,14 +237,28 @@ int main () {
 // ------------------validate người dùng nhập vào------------------------
     char class_name[50];
 
-    char nguoi_dung_nhap_vao[80];
+    char nguoi_dung_nhap_vao[800];
+    char nguoi_dung_nhap_vao_2[800];
     gets(nguoi_dung_nhap_vao);
+    strcpy(nguoi_dung_nhap_vao_2, nguoi_dung_nhap_vao);
+
+
 
     char *dau_cach = " ";
     char *command =strtok(nguoi_dung_nhap_vao, dau_cach); 
     strlwr(command);
     char *id = strtok(NULL, dau_cach);
     char *ki_tu_thua = strtok(NULL, dau_cach);
+
+    char kiem_tra_cau_lenh[50];
+    strcpy(kiem_tra_cau_lenh, command);
+    strcat(kiem_tra_cau_lenh, " ");
+    strcat(kiem_tra_cau_lenh, id);
+
+    if ( strcmp(kiem_tra_cau_lenh, nguoi_dung_nhap_vao_2) != 0 ) {
+        ham_error();
+        return 0;
+    }
 
     if ( ki_tu_thua != NULL ) {
         ham_error();
@@ -258,9 +267,9 @@ int main () {
 
     if ( strcmp(command, "list") == 0) {
         cau_1(values, id,sum_dssv);
-        
+        return 0;
     }
-
+    
     if ( strcmp(command, "count") == 0 ) {
         strlwr(id);
         InHoaKyTuDau(id);
@@ -297,9 +306,9 @@ int main () {
             return 0;
         }
     }
+    
     else {
         ham_error();
     }
 }
-
 
