@@ -1,8 +1,9 @@
 #include<stdio.h>
 #include<string.h>
+#include <stdlib.h>
 
 typedef struct sinh_vien {
-    char id[20], first_name[50], last_name[50], gender[20], date_of_birth[50], class_name[50], country[50];
+    char id[20], first_name[250], last_name[250], gender[20], date_of_birth[50], class_name[250], country[250];
 
 }sv;
 
@@ -10,6 +11,19 @@ void ham_error() {
     FILE *file_path_error = fopen("error.txt", "w");
     fprintf(file_path_error, "%s", "invalid command");
 }
+
+//-----------------------------------------------------------------------------------------
+
+void viet_thuong(char s[]) {
+    int i;
+    for ( i = 0; s[i] != '\0'; i++ ) {
+        if (s[i] >= 'A' && s[i] <= 'Z') {
+            s[i] = s[i] + 32;
+        }
+    }
+}
+
+//-----------------------------------------------------------------------------------------
 
 char InHoaKyTuDau(char s[]) {
     int i;
@@ -88,8 +102,6 @@ void cau_1(sv values[], char id_class[50], int sum_dssv) {
         }
     }
     fclose(file_path_write);
-    // FILE *xoa_dau_xuong_dong = fopen("result.csv", "a");
-    // fprintf(xoa_dau_xuong_dong, "\0\0");
 }
 
 void cau_2(sv values[], char id_gender[50], int sum_dssv) {
@@ -207,7 +219,7 @@ int main () {
         }
 
         char *field = strtok(line_in_data, ",");
-        while (field) {
+        while (field != 0) {
             if (field_count == 0)
                 strcpy(values[i].id, field);
 
@@ -228,32 +240,46 @@ int main () {
 
             if (field_count == 6)
                 strcpy(values[i].country, field);
-
             field = strtok(NULL, ",");
             field_count++;
         }
         i++;
     }
+
 // ------------------validate người dùng nhập vào------------------------
     char class_name[50];
 
     char nguoi_dung_nhap_vao[800];
     char nguoi_dung_nhap_vao_2[800];
+    char id_2[50];
     gets(nguoi_dung_nhap_vao);
     strcpy(nguoi_dung_nhap_vao_2, nguoi_dung_nhap_vao);
-
+    viet_thuong(nguoi_dung_nhap_vao_2);
+    viet_thuong(nguoi_dung_nhap_vao);
 
 
     char *dau_cach = " ";
     char *command =strtok(nguoi_dung_nhap_vao, dau_cach); 
-    strlwr(command);
+    viet_thuong(command);
+    
+    
+
     char *id = strtok(NULL, dau_cach);
+    strcpy(id_2, id);
+    if ( id == NULL) {
+        ham_error();
+        return 0;
+    }
+    if ( id >= "a" && id <= "z" ) {
+        printf("%s", "a");
+    }
     char *ki_tu_thua = strtok(NULL, dau_cach);
 
     char kiem_tra_cau_lenh[50];
     strcpy(kiem_tra_cau_lenh, command);
     strcat(kiem_tra_cau_lenh, " ");
     strcat(kiem_tra_cau_lenh, id);
+    
 
     if ( strcmp(kiem_tra_cau_lenh, nguoi_dung_nhap_vao_2) != 0 ) {
         ham_error();
@@ -271,7 +297,7 @@ int main () {
     }
     
     if ( strcmp(command, "count") == 0 ) {
-        strlwr(id);
+        viet_thuong(id);
         InHoaKyTuDau(id);
         if ( strcmp(id, "Female") != 0 && strcmp(id, "Male") != 0 ) {
             ham_error();
@@ -282,7 +308,7 @@ int main () {
     }
  
     if ( strcmp(command, "country") == 0 ) {
-        strlwr(id);
+        viet_thuong(id);
         InHoaKyTuDau(id);
 
         char str2[255] = "\n";
@@ -291,8 +317,27 @@ int main () {
         return 0;
     }
 
+    if ( strcmp(command, "top") == 0) {
+        int kiem_tra_id = atoi(id);
+        char check_xem_co_chu_trong_id_khong[50];
+        
+        if ( strcmp(id_2, itoa(kiem_tra_id,check_xem_co_chu_trong_id_khong,10)) != 0 ) {
+            ham_error();
+            return 0;
+        }
+
+        if ( kiem_tra_id == 0 || kiem_tra_id < 0 ) {
+            ham_error();
+            return 0;
+        }
+        
+        cau_1(values, id,sum_dssv);
+        return 0;
+    }
+
+
     if ( strcmp(command, "sort") == 0 ) {
-        strlwr(id);
+        viet_thuong(id);
 
         if ( strcmp(id, "asc") == 0 ) {
             cau_4_asc(values, id,sum_dssv);
@@ -310,5 +355,5 @@ int main () {
     else {
         ham_error();
     }
+    return 0;
 }
-
